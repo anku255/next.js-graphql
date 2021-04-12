@@ -9,6 +9,7 @@
   "dependencies": {
     "apollo-server-micro": "2.11.0",
     "aws-sdk": "^2.884.0",
+    "bcryptjs": "^2.4.3",
     "cheerio": "^1.0.0-rc.6",
     "cloudinary": "^1.25.1",
     "graphql": "14.6.0",
@@ -16,6 +17,7 @@
     "graphql-compose-mongoose": "^9.2.2",
     "ioredis": "^4.26.0",
     "isomorphic-fetch": "^3.0.0",
+    "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "mongoose": "^5.12.3",
     "next": "latest",

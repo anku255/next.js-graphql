@@ -56,7 +56,7 @@ export const signIn = {
   },
   resolve: async ({ args: { email, password } }): Promise<{ accessToken: string }> => {
     try {
-      const user = await User.findOne({ email })
+      const user = (await User.findOne({ email }) as any)
       if (!user) {
         return Promise.reject(new Error('User not found.'))
       }

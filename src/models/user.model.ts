@@ -21,6 +21,7 @@ const userSchema = new Schema(
 );
 
 userSchema.methods.comparePassword = function (password: string): boolean {
+  // @ts-expect-error
   return bcrypt.compareSync(password, this.password)
 }
 
