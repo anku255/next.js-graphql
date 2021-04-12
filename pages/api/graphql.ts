@@ -19,7 +19,7 @@ const resolvers = {
   },
 }
 
-const apolloServer = new ApolloServer({ schema: graphqlSchema })
+const apolloServer = new ApolloServer({ schema: graphqlSchema, introspection: true })
 
 export const config = {
   api: {
