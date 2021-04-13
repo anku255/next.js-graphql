@@ -4,7 +4,7 @@ class Connection {
   constructor() {
     const url = process.env.DATABASE;
 
-    if(process.env.NODE_ENV === 'local') {
+    if(process.env.NODE_ENV === 'development') {
       console.log('Establish new connection with url', url);
     }
 
