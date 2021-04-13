@@ -8,7 +8,7 @@ const S3_PATH_PREFIX = process.env.S3_PATH_PREFIX;
 export const s3Client = new aws.S3({
   accessKeyId: process.env.AWS_KEY,
   secretAccessKey: process.env.AWS_SECRET,
-  region: process.env.AWS_REGION,
+  region: process.env.AWS_REGION_KEY,
   s3ForcePathStyle: true,
 });
 

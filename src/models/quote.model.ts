@@ -33,8 +33,4 @@ const quoteSchema = new Schema(
   { timestamps: true },
 );
 
-// @ts-expect-error
-global.quoteModel = global.quoteModel || mongoose.model('Quote', quoteSchema);
-
-// @ts-expect-error
-export default global.quoteModel;
+export default mongoose.models.Quote || mongoose.model('Quote', quoteSchema);

@@ -3,7 +3,11 @@ import mongoose from 'mongoose';
 class Connection {
   constructor() {
     const url = process.env.DATABASE;
-    console.log('Establish new connection with url', url);
+
+    if(process.env.NODE_ENV === 'local') {
+      console.log('Establish new connection with url', url);
+    }
+
     mongoose.Promise = global.Promise;
     mongoose.set('useNewUrlParser', true);
     mongoose.set('useFindAndModify', false);
