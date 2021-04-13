@@ -12,6 +12,7 @@
     "bcryptjs": "^2.4.3",
     "cheerio": "^1.0.0-rc.6",
     "cloudinary": "^1.25.1",
+    "cors": "^2.8.5",
     "graphql": "14.6.0",
     "graphql-compose": "^7.25.1",
     "graphql-compose-mongoose": "^9.2.2",
