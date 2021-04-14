@@ -3,6 +3,7 @@ import Redis from 'ioredis';
 let client = null;
 
 export const redisConnection = () => {
+  console.log("client", client);
   if (client) return client;
 
   client = new Redis({
