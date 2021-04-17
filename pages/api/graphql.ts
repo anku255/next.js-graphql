@@ -1,5 +1,5 @@
 import { ApolloServer } from "apollo-server-micro";
-import "../../src/config/database";
+// import "../../src/config/database";
 import graphqlSchema from "../../src/graphql/schema";
 import Cors from 'cors'
 
