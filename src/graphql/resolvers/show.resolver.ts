@@ -1,11 +1,8 @@
-import { composeWithMongoose } from 'graphql-compose-mongoose';
-
 import Show from '../../models/show.model';
 import Character from '../../models/character.model';
+import { createObjectTC } from '../../utils/createObjectTC';
 
-const customizationOptions = {};
-const ShowTC = composeWithMongoose(Show, customizationOptions);
-
+const ShowTC = createObjectTC({ model: Show });
 
 ShowTC.addFields({
   characters: {

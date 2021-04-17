@@ -1,10 +1,8 @@
-import { composeWithMongoose } from 'graphql-compose-mongoose';
-
 import Character from '../../models/character.model';
 import { ShowTC } from './show.resolver'
+import { createObjectTC } from '../../utils/createObjectTC';
 
-const customizationOptions = {};
-const CharacterTC = composeWithMongoose(Character, customizationOptions);
+const CharacterTC = createObjectTC({ model: Character });
 
 CharacterTC.addRelation('shows', {
   resolver: () => ShowTC.getResolver('findByIds'),

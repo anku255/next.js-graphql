@@ -1,12 +1,9 @@
-import { schemaComposer } from 'graphql-compose';
-import { composeWithMongoose } from 'graphql-compose-mongoose';
-
+import { schemaComposer,  } from 'graphql-compose';
 import User from '../../models/user.model';
 import { me, signIn, signUp } from '../../controllers/auth'
+import { createObjectTC } from '../../utils/createObjectTC';
 
-// CONVERT MONGOOSE MODEL TO GraphQL PIECES
-const customizationOptions = {}; // left it empty for simplicity, described below
-const UserTC = composeWithMongoose(User, customizationOptions);
+const UserTC = createObjectTC({ model: User });
 
 // Remove Fields
 UserTC.removeField('password')
