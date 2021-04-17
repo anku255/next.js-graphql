@@ -1,6 +1,6 @@
 import Quote from '../models/quote.model';
 import Show from '../models/show.model';
-import { fetchFromCacheOrDB } from '../utils/redisHelpers';
+import { fetchFromCacheOrDB, redisHelpers } from '../utils/redisHelpers';
 import { redisKeys } from '../utils/redisKeys';
 
 export const trendingQuotes = {
@@ -9,7 +9,7 @@ export const trendingQuotes = {
   args: {
     limit: 'Int!',
   },
-  resolve: async ({ args: { limit }, context: { redisClient } }): Promise<Array<unknown>> => {
+  resolve: async ({ args: { limit } }): Promise<Array<unknown>> => {
     const fetchFromDB = async () => {
       const quotes = await Quote.aggregate([{ $sample: { size: limit } }]);
 
@@ -18,8 +18,9 @@ export const trendingQuotes = {
       const quotesCount = await Promise.all(showIds.map(showId => Quote.count({ show: showId })));
       return quotes.map((quote, i) => ({ quote, quotesCount: quotesCount[i] }));
     };
+    console.log('called')
 
-    return fetchFromCacheOrDB({ key: redisKeys.trendingQuotes(), expiry: 300, redisClient, fetchFromDB }) as any;
+    return fetchFromCacheOrDB({ key: redisKeys.trendingQuotes(), expiry: 300, fetchFromDB }) as any;
   },
 };
 
@@ -29,11 +30,11 @@ export const trendingShows = {
   args: {
     limit: 'Int!',
   },
-  resolve: async ({ args: { limit }, context: { redisClient } }): Promise<Array<unknown>> => {
+  resolve: async ({ args: { limit } }): Promise<Array<unknown>> => {
     const fetchFromDB = async () => {
       return Show.aggregate([{ $sample: { size: limit } }]);
     };
 
-    return fetchFromCacheOrDB({ key: redisKeys.trendingShows(), expiry: 300, redisClient, fetchFromDB }) as any;
+    return fetchFromCacheOrDB({ key: redisKeys.trendingShows(), expiry: 300, fetchFromDB }) as any;
   },
 };

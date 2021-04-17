@@ -1,7 +1,6 @@
 import { ApolloServer } from "apollo-server-micro";
 import "../../src/config/database";
 import graphqlSchema from "../../src/graphql/schema";
-import { redisConnection } from "../../src/utils/redis";
 import Cors from 'cors'
 
 // Initializing the cors middleware
@@ -23,14 +22,12 @@ function runMiddleware(req, res, fn) {
   })
 }
 
-const redisClient = redisConnection();
 
 const apolloServer = new ApolloServer({
   schema: graphqlSchema,
   introspection: true,
-  context: (ctx) => ({
-    redisClient,
-  }),
+  // context: (ctx) => ({
+  // }),
 });
 
 export const config = {

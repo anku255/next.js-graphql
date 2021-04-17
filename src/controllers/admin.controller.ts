@@ -7,9 +7,9 @@ import url from 'url';
 import { uploadImage } from '../utils/uploadImage';
 import { accessDeepObject } from '../utils/commonHelpers';
 import { redisKeys } from '../utils/redisKeys';
-import { redisGet, redisSet } from '../utils/redis';
 import CharacterModel from '../models/character.model';
 import { getEpisodeName, getSeasonName, parseQuoteMarkup } from '../utils/scrapingHelpers';
+import { redisHelpers } from '../utils/redisHelpers';
 
 const BASE_URL = `https://www.imdb.com`;
 
@@ -219,10 +219,9 @@ export const getQuotesFromWikiQuotes = {
   },
   resolve: async ({
     args: { wikiQuotesUrl, episodesMap, type, showId, limit, skip },
-    context: { redisClient },
   }): Promise<unknown> => {
     const [html] = await Promise.all([
-      fetchWikiQuoteHTML(wikiQuotesUrl, redisClient),
+      fetchWikiQuoteHTML(wikiQuotesUrl),
       initializeCharacterNames({ showId }),
     ]);
 
@@ -369,14 +368,15 @@ async function getAllQuotesFromSeries({ html, showId, episodesMap, skip, limit }
   return quotes;
 }
 
-async function fetchWikiQuoteHTML(wikiQuotesUrl: string, redisClient: any): Promise<string> {
+async function fetchWikiQuoteHTML(wikiQuotesUrl: string): Promise<string> {
   let html = '';
-  const data = await redisGet(redisKeys.wikiQuotesPage(wikiQuotesUrl), redisClient);
+  const data = await redisHelpers.get({ key: redisKeys.wikiQuotesPage(wikiQuotesUrl)});
   if (data) {
     html = data;
   } else {
     html = await rp(wikiQuotesUrl);
-    redisSet(redisKeys.wikiQuotesPage(wikiQuotesUrl), html, redisClient);
+    await redisHelpers.set({key: redisKeys.wikiQuotesPage(wikiQuotesUrl), value: html });
   }
+  await redisHelpers.disconnect();
   return html;
 }
