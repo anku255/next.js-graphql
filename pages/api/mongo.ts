@@ -3,8 +3,10 @@ import { connectToDatabase } from '../../src/config/connectToDatabase';
 
 export default async function (req, res) {
   if(mongoose.connection.readyState === 1) {
-    return res.json({ newConnectionCreated: false });
+    const state = mongoose.connections.map(c => c.readyState);
+    return res.json({ newConnectionCreated: false, state });
   }
   await connectToDatabase();
-  return res.json({ newConnectionCreated: true });
+  const state = mongoose.connections.map(c => c.readyState);
+  return res.json({ newConnectionCreated: true, state });
 }
