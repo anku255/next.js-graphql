@@ -1,6 +1,7 @@
 import Redis from 'ioredis';
+import { RedisClient } from '../@types/';
 
-let client = null;
+let client: RedisClient = null;
 
 export const redisConnection = () => {
   console.log("client", client);
@@ -20,6 +21,18 @@ export const redisConnection = () => {
 
   return client;
 };
+
+process.on('SIGINT', () => {
+  client && client.disconnect();
+  console.log('Redis connection is disconnected due to application termination SIGINT');
+  process.exit(0);
+});
+
+process.on('exit', () => {
+  client && client.disconnect();
+  console.log('Redis connection is disconnected due to application termination exit');
+  process.exit(0);
+});
 
 export const redisGet = async (key: string, redisClient: any) => {
   const data = await redisClient.get(key);
